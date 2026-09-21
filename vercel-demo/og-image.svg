@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">WELL Launcher</title>
+  <desc id="desc">Local project process and terminal log dashboard by Samuel Extehines Heydemans</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07090d"/>
+      <stop offset="1" stop-color="#111a25"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00d4ff" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#00d4ff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <path d="M0 96H1200M0 534H1200" stroke="#263647" stroke-width="2"/>
+  <path d="M72 96V534M1128 96V534" stroke="#263647" stroke-width="2"/>
+  <rect x="72" y="96" width="1056" height="438" rx="14" fill="#0c1118" stroke="#2a3b4b" stroke-width="2"/>
+  <rect x="72" y="96" width="1056" height="8" rx="4" fill="#00d4ff"/>
+  <circle cx="112" cy="140" r="7" fill="#ff6b6b"/>
+  <circle cx="138" cy="140" r="7" fill="#fbbf24"/>
+  <circle cx="164" cy="140" r="7" fill="#4ade80"/>
+  <text x="204" y="148" fill="#8ea3b4" font-family="Arial, Helvetica, sans-serif" font-size="22" letter-spacing="2">LOCAL TERMINAL CONTROL</text>
+  <text x="116" y="270" fill="#f1f5fb" font-family="Arial, Helvetica, sans-serif" font-size="92" font-weight="700" letter-spacing="-3">WELL<tspan fill="#00d4ff">.</tspan>LAUNCHER</text>
+  <text x="120" y="330" fill="#aab9c7" font-family="Arial, Helvetica, sans-serif" font-size="29">Project process control and real-time terminal logs</text>
+  <rect x="120" y="382" width="540" height="2" fill="url(#line)"/>
+  <text x="120" y="445" fill="#00d4ff" font-family="Arial, Helvetica, sans-serif" font-size="22">Built by</text>
+  <text x="228" y="445" fill="#f1f5fb" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Samuel Extehines Heydemans</text>
+  <text x="120" y="484" fill="#6f8294" font-family="Arial, Helvetica, sans-serif" font-size="20">github.com/samwhine</text>
+  <rect x="914" y="393" width="150" height="76" rx="10" fill="#101d29" stroke="#00d4ff" stroke-opacity=".45"/>
+  <text x="989" y="427" text-anchor="middle" fill="#4ade80" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">ONLINE</text>
+  <text x="989" y="454" text-anchor="middle" fill="#8ea3b4" font-family="monospace" font-size="15">PORT 9000</text>
+</svg>

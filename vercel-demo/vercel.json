@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index.py" },
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/split-log", "destination": "/index.html" },
+    { "source": "/projects", "destination": "/index.html" },
+    { "source": "/profiles", "destination": "/index.html" },
+    { "source": "/port-scanner", "destination": "/index.html" },
+    { "source": "/settings", "destination": "/index.html" }
+  ]
+}

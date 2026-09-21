@@ -16,7 +16,13 @@ if %errorlevel% neq 0 (
 
 echo  Installing dependencies...
 echo.
-pip install flask requests
+if not exist "%~dp0requirements.txt" (
+    color 0C
+    echo  [ERROR] requirements.txt not found!
+    echo  Make sure you are running this installer from the full repository.
+    pause & exit /b
+)
+python -m pip install -r "%~dp0requirements.txt"
 echo.
 
 :: Create the static folder if it doesn't exist yet

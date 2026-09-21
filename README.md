@@ -26,9 +26,10 @@ Change the password immediately from **Change Password** before using the launch
 
 ## Requirements
 
-- Windows 10/11 for running the `.bat` files and Windows-based project processes.
+- Windows 10/11 is the primary tested environment for the local launcher, especially for the `.bat` files and Windows-based project processes.
 - Python 3.10 or newer.
 - Python packages: `Flask` and `requests`.
+- The root `requirements.txt` contains the local launcher dependencies.
 
 ## Quick start on Windows
 
@@ -55,12 +56,27 @@ Change the password immediately from **Change Password** before using the launch
 
 5. Sign in with `admin` / `admin`, then change the password.
 
-The installer runs `pip install flask requests`. To install the dependencies manually:
+The installer uses the root `requirements.txt` file. To install the dependencies manually:
 
 ```bat
-python -m pip install flask requests
+python -m pip install -r requirements.txt
 python server.py
 ```
+
+## Linux compatibility
+
+The local launcher was developed and tested by the author on Windows. The core Python web application may work on Linux, but Linux support is currently **unverified** and is not promised yet. The Windows `.bat` files will not run natively on Linux, and any project commands, working directories, executable names, Cloudflare commands, firewall commands, or service management steps may need Linux-specific replacements.
+
+Linux users can try the Python server manually:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python server.py
+```
+
+Before starting it, update `launcher_config.json` so each project's `cwd` and `cmd` use Linux paths and commands. This repository should therefore be considered **Windows-tested, Linux-unverified** for the local launcher. The separate `vercel-demo/` deployment is a Python serverless demo and is not affected by the local Windows `.bat` requirement.
 
 ## Demo projects
 
@@ -72,12 +88,28 @@ python server.py
 
 This demo configuration is intentionally committed so a fresh clone can be used immediately for live testing. To use your own projects, edit `launcher_config.json` after cloning. Do not commit private paths, internal domains, API keys, tokens, or credentials to a public repository.
 
+## Deploy the public demo to Vercel
+
+The public demo is intentionally separated from the local process manager inside the `vercel-demo/` folder. It uses a small Python Flask serverless function with `requirements.txt` and `vercel.json`. The demo supports `admin` / `admin` login, simulated project status, simulated terminal logs, profiles, and safe start/stop interactions. It never runs `.bat`, `.exe`, Cloudflare, firewall, or other local commands.
+
+To deploy it from GitHub:
+
+1. Import this repository into Vercel.
+2. Set **Root Directory** to `vercel-demo`.
+3. Use the **Other** framework preset, or let Vercel detect the Python runtime from `requirements.txt`.
+4. Leave the build command and output directory empty.
+5. Deploy and assign `welllauncher.vercel.app` as the production domain.
+6. Open the deployment and sign in with `admin` / `admin`.
+
+The local launcher remains at the repository root and should continue to run on your own computer. The Vercel deployment is only a safe public showcase of the interface; it cannot control your local projects or infrastructure.
+
 ## Repository structure
 
 ```text
 .
 ├── server.py
 ├── launcher_config.json
+├── requirements.txt
 ├── README.md
 ├── .gitattributes
 ├── .gitignore
@@ -85,6 +117,11 @@ This demo configuration is intentionally committed so a fresh clone can be used 
 ├── sitemap.xml
 ├── og-image.png
 ├── og-image.svg
+├── vercel-demo/
+│   ├── api/index.py
+│   ├── index.html
+│   ├── requirements.txt
+│   └── vercel.json
 ├── WELL_Launcher_Guide.txt
 ├── -- INSTALL --.bat
 ├── -- RESET_PASSWORD --.bat
