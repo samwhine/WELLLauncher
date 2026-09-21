@@ -1,2 +1,19 @@
-# Auto detect text files and perform LF normalization
+# Text files use LF by default
 * text=auto
+*.py text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+
+# Windows launcher scripts should keep CRLF
+*.bat text eol=crlf
+
+# Binary asset
+*.ico binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
