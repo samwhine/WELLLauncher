@@ -1,0 +1,71 @@
+{
+  "settings": {
+    "dashboard_port": 9000,
+    "start_delay": 1500,
+    "stop_delay": 3000,
+    "port_scan_range_start": 1000,
+    "port_scan_range_end": 10000,
+    "session_lifetime_hours": 24,
+    "stop_timeout": 5000,
+    "status_refresh_interval": 1000,
+    "log_refresh_interval": 1000,
+    "max_log_lines": 300
+  },
+  "projects": [
+    {
+      "id": "demo_http_server",
+      "name": "Demo HTTP Server",
+      "icon": "🌐",
+      "cwd": ".",
+      "cmd": "python -m http.server 8765",
+      "port": 8765,
+      "color": "#00d4ff",
+      "domain": null,
+      "has_toggle": false,
+      "toggle_label": "",
+      "toggle_options": [],
+      "is_background": false,
+      "enabled": true,
+      "disabled": false
+    },
+    {
+      "id": "demo_log_stream",
+      "name": "Demo Log Stream",
+      "icon": "▣",
+      "cwd": ".",
+      "cmd": "python -c \"import time; [print(f'Demo log line {i}', flush=True) or time.sleep(1) for i in range(1, 31)]\"",
+      "port": null,
+      "color": "#a78bfa",
+      "domain": null,
+      "has_toggle": false,
+      "toggle_label": "",
+      "toggle_options": [],
+      "is_background": false,
+      "enabled": true,
+      "disabled": false
+    },
+    {
+      "id": "demo_background",
+      "name": "Demo Background Service",
+      "icon": "⚙",
+      "cwd": ".",
+      "cmd": "python -m http.server 8766",
+      "port": 8766,
+      "color": "#f472b6",
+      "domain": null,
+      "has_toggle": false,
+      "toggle_label": "",
+      "toggle_options": [],
+      "is_background": true,
+      "enabled": true,
+      "disabled": false
+    }
+  ],
+  "profiles": [
+    {
+      "id": "profile_demo",
+      "name": "DEMO",
+      "projects": ["demo_http_server", "demo_log_stream", "demo_background"]
+    }
+  ]
+}

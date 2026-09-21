@@ -1,0 +1,276 @@
+================================================================
+  WELL LAUNCHER v2
+  User Guide & Important Notes
+================================================================
+
+1. INSTALLATION
+----------------
+Requirements:
+  - Python 3.10+ installed and available in PATH
+  - Check via CMD: python --version
+
+Steps:
+  1. Put all WELL Launcher files in one folder
+  2. Run INSTALL.bat
+  3. Put index.html inside the static\ folder
+  4. Click START_WELL_LAUNCHER.bat to start
+  5. The browser opens automatically at http://localhost:9000
+
+Folder structure:
+  WELL Launcher\
+  ├── server.py
+  ├── INSTALL.bat
+  ├── START_WELL_LAUNCHER.bat
+  ├── RESET_PASSWORD.bat        <- for password recovery
+  ├── launcher_config.json
+  ├── users.json
+  ├── static\
+  │   ├── index.html        <- dashboard UI
+  │   ├── favicon.ico       <- optional
+  │   └── favicon.png       <- optional
+  └── pids\                 <- created automatically
+
+Notes:
+  - The static\ folder is created automatically the first time server.py runs
+  - Favicon is optional — if missing, the default icon is used
+  - Editing index.html does not require a server restart, just refresh the browser
+  - Editing server.py requires a server restart
+
+----------------------------------------------------------------
+2. DASHBOARD
+-------------
+Main buttons:
+  START ALL          - Start all projects in the active profile (with a delay between each)
+  STOP ALL           - Stop all running projects
+  STOP EXCEPT BG     - Stop everything except Background Services
+  SPLIT LOG          - Show logs side-by-side with the project cards
+  DELAY (ms)         - Delay between projects during START ALL / STOP ALL
+
+  Note: while Start All or Stop All is in progress, you cannot switch to a
+  different profile — the profile tabs are locked until the operation
+  finishes (a warning toast explains why if you try).
+
+Project card:
+  START / STOP       - Start or stop the project
+  Arrow button (↗)   - Open the project in the browser (if it has a port)
+  Status badge       - ONLINE / STARTING / OFFLINE (next to the project name)
+  URL on the card     - Adjusts automatically depending on how the
+                        launcher was opened:
+                        · Local (localhost / LAN IP)
+                          -> shows localhost:PORT
+                        · Via a domain (e.g. launcher.domain.com)
+                          -> shows the project's custom domain (if set)
+                          -> or falls back to hostname:PORT
+                        If the URL is too long it's truncated (...),
+                        hover to see the full URL.
+
+Log panel:
+  Click a project's tab to see its real-time output
+  ⎘ COPY   = copy all logs to the clipboard
+  ✕ CLEAR  = clear the log view
+  ↓ BOTTOM = scroll to the bottom
+  ⛶ FULL   = open the log in fullscreen
+
+Polling & sync:
+  - Project status refreshes every 1000ms by default (configurable in Settings)
+  - Terminal log refreshes every 1000ms by default (configurable in Settings)
+  - Server-side status cache refreshes every 1000ms
+  - Can be accessed from your phone or another device on the same local
+    network via http://<desktop-IP>:9000
+
+----------------------------------------------------------------
+3. PROFILES
+------------
+A profile is a group of projects that can be run together.
+
+  - Create a profile in the Profiles tab
+  - Check the projects that belong to that profile
+  - On the Dashboard, click a profile's name to switch the view
+  - START ALL only starts projects within the active profile
+  - Green dot  = this profile is the one currently running
+  - Red dot    = a different profile is currently running
+  - View only  = you can't start/stop projects here while a different
+                 profile is active
+
+Profile rules:
+  - Only 1 profile can be active (running) at a time
+  - Background Services can run from any profile
+  - Deleting a project automatically removes it from every profile
+  - You cannot delete a profile while any of its projects are still
+    running — stop them first
+  - You cannot switch profiles while Start All / Stop All is in
+    progress for the current profile
+
+----------------------------------------------------------------
+4. PROJECTS
+-------------
+Add a new project via the + ADD PROJECT button, fill in:
+  - Project Name    : Name shown on the dashboard
+  - Icon            : Emoji from the picker
+  - Working Dir     : Project folder (e.g. D:\MyApp)
+  - Command         : Command to run it (e.g. python server.py)
+  - Port            : Port it uses (optional)
+  - Accent Color    : Card color on the dashboard
+  - Custom Domain   : Dedicated domain for the project when accessed
+                      from outside (e.g. sys.creativelegacy.my.id)
+                      Leave empty if not used / no tunnel
+  - Background Svc  : Check this if it shouldn't be affected by STOP EXCEPT BG
+  - Has Toggle       : For projects with multiple command options
+
+DISABLE = hide from the dashboard (not deleted)
+Drag & drop to reorder projects
+
+----------------------------------------------------------------
+5. SETTINGS
+------------
+General (Admin only):
+  - Dashboard Port      : Launcher's port, requires a launcher restart
+  - Session Lifetime    : How long a login session lasts before auto-logout
+  - Default Start Delay : Default delay for START ALL
+  - Default Stop Delay  : Default delay for STOP ALL
+  - Port Scan range     : Default range for the Port Scanner
+
+User Management (Admin only):
+  - Add/edit/delete users directly from the UI
+  - Admin role  : can START/STOP, edit projects, manage users
+  - Viewer role : can only view status and logs, cannot change anything
+
+Change My Password:
+  - Any user can change their own password from here
+  - You must know your current password to change it via the UI
+  - If you forgot your password, use RESET_PASSWORD.bat (see section 11)
+
+----------------------------------------------------------------
+6. PORT SCANNER
+-----------------
+Scans active ports on the computer within a given range (max 2000)
+Useful for checking ports before adding a new project
+
+----------------------------------------------------------------
+7. CREATING A .BAT FILE FOR A PROJECT
+----------------------------------------
+Just ONE .bat file is needed — it works both for running manually
+and via WELL Launcher. No need to make two separate versions.
+
+Required rules:
+  [V] Set PYTHONUNBUFFERED and PYTHONIOENCODING at the top:
+        set "PYTHONUNBUFFERED=1"
+        set "PYTHONIOENCODING=utf-8"
+  [V] If using Python + venv, call python directly from the venv —
+      do NOT use call activate:
+        "%~dp0venv\Scripts\python.exe" main.py
+  [V] A trailing pause is fine to keep — the launcher automatically
+      skips it because stdin is redirected to /dev/null
+  [V] Setting env vars (model path, API key, etc.) inside the .bat
+      still works — the launcher reads and runs all of it
+
+Example .bat for Python + venv:
+
+  @echo off
+  title Project Name
+  cd /d "%~dp0"
+
+  set "PYTHONUNBUFFERED=1"
+  set "PYTHONIOENCODING=utf-8"
+  set "MODEL_PATH=%~dp0models"   <- env vars still work via the launcher
+
+  if not exist "%~dp0models" mkdir "%~dp0models"
+
+  echo Starting...
+  "%~dp0venv\Scripts\python.exe" main.py
+  pause
+
+Example .bat for Node.js:
+
+  @echo off
+  title Project Name
+  cd /d "%~dp0"
+
+  echo Starting...
+  node server.js
+  pause
+
+Example .bat for PHP/Laravel:
+
+  @echo off
+  title Project Name
+  cd /d "%~dp0"
+
+  echo Starting...
+  php artisan serve
+  pause
+
+Why NOT to use "call venv\Scripts\activate.bat":
+  - activate.bat only changes the PATH within that CMD session
+  - The env it sets does not propagate back to the launcher
+  - As a result, the "python" command afterward may end up using
+    the system Python instead of the one in your venv
+  - Solution: call "%~dp0venv\Scripts\python.exe" directly
+    — same effect, more reliable
+
+----------------------------------------------------------------
+8. MOVING TO ANOTHER COMPUTER / GITHUB
+-----------------------------------------
+Moving computers:
+  - Copy the entire WELL Launcher folder (including static\)
+  - Run INSTALL.bat on the new computer (auto-installs all dependencies)
+  - Edit the cwd path on the Projects page if needed
+
+Uploading to GitHub — create a .gitignore first with:
+  pids/
+  users.json
+  __pycache__/
+  *.pyc
+
+Then push:
+  git init
+  git add .
+  git commit -m "Initial commit"
+  git branch -M main
+  git remote add origin https://github.com/username/repo-name.git
+  git push -u origin main
+
+IMPORTANT: do NOT push users.json to GitHub since it contains
+password hashes. This file is automatically recreated the first
+time the server runs on a new PC (default user: admin / admin).
+
+----------------------------------------------------------------
+9. IF THE LAUNCHER GETS CLOSED ACCIDENTALLY
+------------------------------------------------
+  - Projects that are running KEEP running, they don't get killed
+  - Just reopen START_WELL_LAUNCHER.bat
+  - The launcher automatically re-attaches to every project still alive
+  - The Terminal Log will be empty right after re-attaching (this is normal)
+
+----------------------------------------------------------------
+10. MAINTENANCE / OFFICE CLOSED
+----------------------------------
+To show visitors an "offline" page:
+
+  1. Run the MAINTENANCE profile from the launcher
+     (placeholder.py + cloudflared maintenance config)
+  2. The Cloudflare tunnel is automatically routed to the placeholder
+  3. Once maintenance is done, switch back to the normal profile
+
+----------------------------------------------------------------
+11. FORGOT PASSWORD
+---------------------
+If you forgot your password and can't log in via the UI:
+
+  1. Run RESET_PASSWORD.bat
+  2. Pick the username you want to reset
+  3. Enter a new password (confirm it twice)
+  4. Done — you can log in right away with the new password
+
+Notes:
+  - The server does not need to be stopped to reset a password
+  - The password is not shown on screen while typing (secure)
+  - If the confirmation doesn't match, you'll be asked to try again
+  - Passwords are stored using salted PBKDF2-HMAC-SHA256 hashing.
+    Older accounts created before this upgrade are automatically
+    migrated to the new hash format the next time they log in —
+    no manual action needed.
+
+================================================================
+  WELL Launcher v2 — Samuel
+================================================================
