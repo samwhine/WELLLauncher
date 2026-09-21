@@ -1199,6 +1199,18 @@ def index():
     # JS reads the URL path and shows the matching tab (see _applyRouteFromLocation).
     return send_from_directory(BASE_DIR / "static", "index.html")
 
+@app.route("/robots.txt")
+def robots_txt():
+    return send_from_directory(BASE_DIR, "robots.txt", mimetype="text/plain")
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    return send_from_directory(BASE_DIR, "sitemap.xml", mimetype="application/xml")
+
+@app.route("/og-image.png")
+def og_image():
+    return send_from_directory(STATIC_DIR, "og-image.png", mimetype="image/png")
+
 @app.route("/favicon.ico")
 @app.route("/favicon.png")
 def favicon():

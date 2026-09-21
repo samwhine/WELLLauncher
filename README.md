@@ -69,13 +69,21 @@ This demo configuration is intentionally committed so a fresh clone can be used 
 ├── server.py
 ├── launcher_config.json
 ├── README.md
+├── .gitattributes
+├── .gitignore
+├── robots.txt
+├── sitemap.xml
+├── og-image.png
+├── og-image.svg
 ├── WELL_Launcher_Guide.txt
 ├── -- INSTALL --.bat
 ├── -- RESET_PASSWORD --.bat
 ├── -- START_WELL_LAUNCHER --.bat
 └── static/
     ├── index.html
-    └── favicon.ico
+    ├── favicon.ico
+    ├── og-image.png
+    └── og-image.svg
 ```
 
 The `pids/` folder and `users.json` file are created at runtime and do not need to be committed.
@@ -140,6 +148,19 @@ git branch -M main
 git remote add origin https://github.com/USERNAME/REPOSITORY.git
 git push -u origin main
 ```
+
+## SEO and public metadata
+
+The public site metadata is configured for `https://welllauncher.vercel.app/` and includes:
+
+- Search title and description for WELL Launcher.
+- Author metadata for **Samuel Extehines Heydemans**.
+- GitHub profile reference: [github.com/samwhine](https://github.com/samwhine).
+- Canonical URL, Open Graph tags, and Twitter/X summary card metadata.
+- JSON-LD structured data for the author, website, and software application.
+- `robots.txt`, `sitemap.xml`, and a 1200×630 social preview image at `/og-image.png`.
+
+Metadata improves discoverability but does not guarantee an immediate Google result. Deploy the site publicly, verify the domain in [Google Search Console](https://search.google.com/search-console), submit `https://welllauncher.vercel.app/sitemap.xml`, and allow time for Google to crawl and index the site.
 
 ## Security notes
 
