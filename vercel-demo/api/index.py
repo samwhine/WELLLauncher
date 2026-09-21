@@ -6,9 +6,11 @@ visitors can try the dashboard UI safely.
 """
 from datetime import datetime, timezone
 from functools import wraps
-from flask import Flask, jsonify, request, session
+from pathlib import Path
+from flask import Flask, jsonify, request, session, send_from_directory
 
 app = Flask(__name__)
+DEMO_DIR = Path(__file__).resolve().parents[1]
 app.secret_key = "well-launcher-public-demo-session-key-change-me"
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
@@ -109,6 +111,37 @@ def admin_required(fn):
             return jsonify({"error": "Admin access required"}), 403
         return fn(*args, **kwargs)
     return wrapped
+
+
+@app.route("/")
+@app.route("/dashboard")
+@app.route("/split-log")
+@app.route("/projects")
+@app.route("/profiles")
+@app.route("/port-scanner")
+@app.route("/settings")
+def homepage():
+    return send_from_directory(DEMO_DIR, "index.html")
+
+
+@app.route("/robots.txt")
+def robots_txt():
+    return send_from_directory(DEMO_DIR, "robots.txt", mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    return send_from_directory(DEMO_DIR, "sitemap.xml", mimetype="application/xml")
+
+
+@app.route("/og-image.png")
+def og_image():
+    return send_from_directory(DEMO_DIR, "og-image.png", mimetype="image/png")
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(DEMO_DIR, "favicon.ico", mimetype="image/x-icon")
 
 
 def demo_states():
