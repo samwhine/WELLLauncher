@@ -157,6 +157,7 @@ def status_payload():
             "running": states[project["id"]],
             "pid": 9000 + index if states[project["id"]] else None,
             "port": project["port"],
+            "port_open": bool(project["port"]) and states[project["id"]],
             "toggle": 0,
             "started_at": "DEMO MODE" if states[project["id"]] else None,
             "returncode": None,

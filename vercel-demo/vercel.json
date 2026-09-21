@@ -1,11 +1,3 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
-    { "source": "/dashboard", "destination": "/index.html" },
-    { "source": "/split-log", "destination": "/index.html" },
-    { "source": "/projects", "destination": "/index.html" },
-    { "source": "/profiles", "destination": "/index.html" },
-    { "source": "/port-scanner", "destination": "/index.html" },
-    { "source": "/settings", "destination": "/index.html" }
-  ]
+  "$schema": "https://openapi.vercel.sh/vercel.json"
 }
