@@ -4,6 +4,16 @@ WELL Launcher is a local dashboard for starting, stopping, and monitoring multip
 
 This repository includes a **safe demo configuration** so anyone can clone it and try the dashboard without needing your private projects or machine paths.
 
+## Why WELL Launcher exists
+
+WELL Launcher was created to solve a practical daily problem: repeatedly opening terminals, remembering commands, changing directories, and starting every project one by one is slow and easy to get wrong. Instead of treating each project as a separate manual task, the launcher turns the local machine into a small, flexible command center.
+
+From one dashboard, the user can start or stop individual projects, start a whole group with **Start All**, monitor their live terminal output, and switch between profiles depending on the task. Profiles make it possible to keep different working modes—such as everyday services, testing, maintenance, or a custom project combination—without rewriting commands every time.
+
+The launcher is intentionally **local-first**. It is useful for daily development and self-hosted environments where supporting services may need to run together: Cloudflare tunnels, firewall-related services, local APIs, databases, file browsers, monitoring tools, and other background processes. Background services can be marked separately so commands such as **Stop Except Background** do not interrupt infrastructure that should remain online.
+
+The goal is simple: define the project commands once, organize them into profiles, and manage the whole local environment without having to remember or manually launch every command again.
+
 ## Demo login
 
 On a fresh clone, `users.json` does not exist yet. `server.py` automatically creates it with this default account:
